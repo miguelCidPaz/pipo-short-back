@@ -13,7 +13,7 @@ const server = http.createServer((req, res) => {
 
 const MongoClient = require("mongodb").MongoClient;
 const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.uzoxg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-MongoClient.connect(uri, {useUnifiedTopology: true }, (err, client) => {
+MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
   if (err) console.log("Error occurred connecting to MongoDB...");
   console.log("Connected to MongoDB!");
 });
