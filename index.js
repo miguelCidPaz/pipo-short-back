@@ -1,7 +1,11 @@
 const app = require("express")();
-app.use(require("express").json());
+const config = require('./config');
+const cors = require('cors');
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json())
+app.use(cors());
 app.use('/pipo-back', require("./routes"));
-const config = require('./config')
 
 app.listen(config.PORT, () => {
     console.log('Working!! in port ',config.PORT)
