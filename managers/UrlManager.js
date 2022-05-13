@@ -1,16 +1,47 @@
 const url = require("../schemas/recordUrl")
 const config = require("../config")
+const Validate = require("../services/Validates")
 const db = require("./connections/ConnectionWithMongo")
 
+/**
+ * Create a random code and the object that we will insert in the DB.
+ * Check if the user is anonymous and avoid duplicates if possible.
+ * 
+ * @param {*} data 
+ * @returns 
+ */
 const shortUrl = async(data) => {
     const code = Math.random().toString(36).substr(2,5);
-    const response = `${config.URL_FRONT+code}`
+    const newUrl = { code: code, url: data.url, user: data.user }
+    
+    try{
+        //Intentamos la conexion a la DB
+        const saveInDatabase = await url.find();
 
-    const saveInDatabase = await url.find();
-    console.log(saveInDatabase)
+        //Si el usuario es anonimo y si no es anonimo que no tenga esa url ya registrada
+        if(newUrl.user === 'anon' || !Validate.comprobateUrl(saveInDatabase,newUrl)){
+            const countAnonsUrls = saveInDatabase.filter(e =>  e.user === 'anon' && e.url === newUrl.url)
     
+            //Si el usuario no es anonimo o si ningun anonimo registro ese enlace
+            if(newUrl.user !== 'anon' || countAnonsUrls.length < 1){
+                const urlStored = new url(newUrl);
+                urlStored.save();
+                return `${config.URL_FRONT+code}`
+            }
     
-    return response
+            //Si el usuario es anonimo y ya se registro ese enlace
+            const saveCode = countAnonsUrls[0]
+            return `${config.URL_FRONT+saveCode.code}`
+            
+        }else{
+            //Si el usuario no es anonimo y ya tenemos registrada su url, se la devolvemos
+            const newResponse = saveInDatabase.filter(e => e.user === newUrl.user && e.url === newUrl.url)[0]
+            return `${config.URL_FRONT+newResponse.code}`
+        }
+
+    }catch(e){
+        return ''
+    }
 }
 
 module.exports = {
