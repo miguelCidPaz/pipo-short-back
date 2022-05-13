@@ -1,7 +1,9 @@
-
+const UrlManager = require('../../managers/UrlManager')
 
 async function shortUrl(req,res){
-    res.status(200).json("Url Acortada")
+    const response = await UrlManager.shortUrl(req.body.data);
+    console.log(response)
+    res.status(200).json(response)
 }
 
 module.exports = shortUrl;
