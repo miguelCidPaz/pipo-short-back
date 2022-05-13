@@ -19,8 +19,6 @@ const shortUrl = async(data) => {
         //Intentamos la conexion a la DB
         const saveInDatabase = await url.find({url: newUrl.url, user:newUrl.user});
 
-        console.log(saveInDatabase)
-
         //Si el usuario es anonimo y si no es anonimo que no tenga esa url ya registrada
         if(newUrl.user === 'anon' || !Validate.comprobateUrl(saveInDatabase,newUrl)){
     
