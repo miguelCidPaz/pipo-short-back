@@ -47,9 +47,14 @@ const shortUrl = async(data) => {
 
 const getUrl = async(data) => {
     try{
+        //Busqueda en la DB
         const SavedInDatabase = await url.find({code:data.code})
-        if(SavedInDatabase.length < 1) return config.URL_FRONT
-        if(SavedInDatabase[0].user === 'anon') return SavedInDatabase[0].url
+
+        if(SavedInDatabase.length < 1) return config.URL_FRONT // No se encontro nada
+        if(SavedInDatabase[0].user === 'anon') return SavedInDatabase[0].url // Se encontro pero el code pertenece a un anon
+
+        
+
     }catch(e){
         return config.URL_FRONT
     }
