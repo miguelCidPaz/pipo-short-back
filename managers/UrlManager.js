@@ -44,6 +44,18 @@ const shortUrl = async(data) => {
     }
 }
 
+
+const getUrl = async(data) => {
+    try{
+        const SavedInDatabase = await url.find({code:data.code})
+        if(SavedInDatabase.length < 1) return config.URL_FRONT
+        if(SavedInDatabase[0].user === 'anon') return SavedInDatabase[0].url
+    }catch(e){
+        return config.URL_FRONT
+    }
+}
+
 module.exports = {
     shortUrl:shortUrl,
+    getUrl:getUrl,
 }
