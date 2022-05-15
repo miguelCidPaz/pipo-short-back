@@ -1,7 +1,6 @@
 const url = require("../schemas/recordUrl")
 const config = require("../config")
 const Validate = require("../services/Validates")
-const db = require("./connections/ConnectionWithMongo")
 
 /**
  * Create a random code and the object that we will insert in the DB.
@@ -19,7 +18,7 @@ const shortUrl = async(data) => {
         //Intentamos la conexion a la DB
         const saveInDatabase = await url.find({url: newUrl.url, user:newUrl.user});
 
-        //Si el usuario es anonimo y si no es anonimo que no tenga esa url ya registrada
+        //Si el usuario es anonimo o si no es anonimo que no tenga esa url ya registrada
         if(newUrl.user === 'anon' || !Validate.comprobateUrl(saveInDatabase,newUrl)){
     
             //Si el usuario no es anonimo o si ningun anonimo registro ese enlace
