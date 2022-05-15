@@ -41,9 +41,9 @@ const registerUser = async (data) => {
  * @returns false for a bad request or a bad validation, token and username for a good login
  */
 const login = async(data) => {
-    if (!validation(data.username) || !validation(data.pass)) return false
+    if (!validation(data.user) || !validation(data.pass)) return false
     try {
-        const userFind = await User.find({ username: data.username, password: data.pass })
+        const userFind = await User.find({ username: data.user, password: data.pass })
         if (userFind.length < 1) return false
         const userForToken = {
             id: userFind[0]._id,
