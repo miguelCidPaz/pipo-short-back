@@ -26,10 +26,11 @@ module.exports = (request, response, next) => {
     }
 
     //Se saca el id del token si todo fue bien
-    const { id: userId } = decodedToken
+    const { id: userId, username: username } = decodedToken
 
-    //le devolvemos a la request el userID
+    //le devolvemos a la request el userID y el username para usarlo en el front
     request.userId = userId
+    request.username = username
 
     next();
 }

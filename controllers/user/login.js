@@ -2,8 +2,8 @@ const UserManager = require("../../managers/UserManager")
 
 
 async function login(req, res){
-    console.log(req.userId)
-    res.status(200).json('Accediendo a ruta privada')
+    const response = await UserManager.login(req.body)
+    res.status(200).json(response)
 }
 
 module.exports = login
