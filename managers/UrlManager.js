@@ -83,7 +83,7 @@ const getInfo = async (data) => {
         const response = []
         for (let i = 1; i < recount.length; i += 2) {
             const myUrl = await url.find({ code: recount[i - 1] })
-            response.push({ url: myUrl[0].code, code: recount[i - 1], totalclicks: recount[i] })
+            response.push({ url: myUrl[0].url, code: recount[i - 1], totalclicks: recount[i] })
         }
 
         return response
