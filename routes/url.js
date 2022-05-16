@@ -5,5 +5,6 @@ const router = require('express').Router();
 router.post('/shorturl', require('../controllers/url/shorturl'))
 router.post('/geturl', require('../controllers/url/geturl'))
 router.get('/getallurls', userExtractor, require('../controllers/url/getallurls'))
+router.get('/getdetail/:code', userExtractor, require('../controllers/url/getdetail'))
 
 module.exports = router;

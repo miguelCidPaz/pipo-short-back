@@ -1,7 +1,6 @@
 const url = require("../schemas/recordUrl")
 const Clicks = require('../schemas/Clicks')
 const config = require("../config")
-const Validate = require("../services/Validates")
 const Validates = require("../services/Validates")
 
 /**
@@ -21,7 +20,7 @@ const shortUrl = async (data) => {
         const saveInDatabase = await url.find({ url: newUrl.url, user: newUrl.user });
 
         //Si el usuario es anonimo o si no es anonimo que no tenga esa url ya registrada
-        if (newUrl.user === 'anon' || !Validate.comprobateUrl(saveInDatabase, newUrl)) {
+        if (newUrl.user === 'anon' || !Validates.comprobateUrl(saveInDatabase, newUrl)) {
 
             //Si el usuario no es anonimo o si ningun anonimo registro ese enlace
             if (newUrl.user !== 'anon' || saveInDatabase.length < 1) {
@@ -82,8 +81,22 @@ const getInfo = async (data) => {
     }
 }
 
+const getDetail = async (code) => {
+    try{
+        const allClicks = await Clicks.find({code: code})
+        if(allClicks.length < 1) return []
+
+        const response = Validates.getDetails(allClicks)
+        return response
+    }catch(e){
+        console.log(e)
+        return []
+    }
+}
+
 module.exports = {
     shortUrl: shortUrl,
     getUrl: getUrl,
-    getInfo: getInfo
+    getInfo: getInfo,
+    getDetail: getDetail
 }
