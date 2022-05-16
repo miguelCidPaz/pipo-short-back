@@ -12,10 +12,11 @@ const Validates = require("../services/Validates")
  * @returns 
  */
 const shortUrl = async (data) => {
-    const code = Math.random().toString(36).substr(2, 5);
-    const newUrl = { code: code, url: data.url, user: data.user }
 
     try {
+        const code = await verifyCode();
+        const newUrl = { code: code, url: data.url, user: data.user }
+
         //Intentamos la conexion a la DB
         const saveInDatabase = await url.find({ url: newUrl.url, user: newUrl.user });
 
@@ -42,6 +43,17 @@ const shortUrl = async (data) => {
         //Fallo la conexion
         return ''
     }
+}
+
+const verifyCode = async() => {
+    let comp = false
+    let code = ''
+    while(!comp){
+        code = Math.random().toString(36).substr(2, 5);
+        const codesDB = await url.find({code: code})
+        comp = codesDB.length === 0
+    }
+    return code
 }
 
 
@@ -82,13 +94,13 @@ const getInfo = async (data) => {
 }
 
 const getDetail = async (code) => {
-    try{
-        const allClicks = await Clicks.find({code: code})
-        if(allClicks.length < 1) return []
+    try {
+        const allClicks = await Clicks.find({ code: code })
+        if (allClicks.length < 1) return []
 
         const response = Validates.getDetails(allClicks)
         return response
-    }catch(e){
+    } catch (e) {
         console.log(e)
         return []
     }
