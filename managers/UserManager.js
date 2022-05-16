@@ -13,8 +13,8 @@ const jwt = require('jsonwebtoken')
 const registerUser = async (data) => {
     if (!validation(data.user) || !validation(data.pass)) return false
     try {
-        const usersInDatabase = await User.find()
-        if (usersInDatabase.includes(data.user)) return false
+        const usersInDatabase = await User.find({username: data.user})
+        if (usersInDatabase.length > 0) return false
 
         const newUser = new User({ username: data.user, password: data.pass })
         await newUser.save()
