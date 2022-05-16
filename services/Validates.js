@@ -14,7 +14,21 @@ const validation = (str) => {
     return false
 }
 
+const getAllUrls = (infos) => {
+    const result = []
+    for (const info of infos) {
+        const comprobate = result.includes(info.code)
+        if (!comprobate && info.code !== undefined) {
+            result.push(info.code)
+        }
+        const index = result.indexOf(info.code)+1
+        result[index] ? result[index] += 1 : result[index] = 1
+    }
+    return result
+}
+
 module.exports = {
-    comprobateUrl:comprobateUrl,
-    validation:validation,
+    comprobateUrl: comprobateUrl,
+    validation: validation,
+    getAllUrls: getAllUrls
 }
