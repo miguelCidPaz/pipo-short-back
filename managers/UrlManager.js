@@ -59,7 +59,13 @@ const verifyCode = async() => {
     return code
 }
 
-
+/**
+ * Returns the url associated with a code, checks who a url 
+ * belongs to and posts the information returned in the call
+ * 
+ * @param {*} data 
+ * @returns 
+ */
 const getUrl = async (data) => {
     try {
         //Busqueda en la DB
@@ -76,6 +82,12 @@ const getUrl = async (data) => {
     }
 }
 
+/**
+ * Returns each code with its associated url and the total number of clicks
+ * 
+ * @param {*} data 
+ * @returns 
+ */
 const getInfo = async (data) => {
     try {
         const allmyUrls = await url.find({ user: data.username });
@@ -101,6 +113,12 @@ const getInfo = async (data) => {
     }
 }
 
+/**
+ * Returns all the data related to each code formatted
+ * 
+ * @param {*} code 
+ * @returns 
+ */
 const getDetail = async (code) => {
     try {
         const allClicks = await Clicks.find({ code: code })
