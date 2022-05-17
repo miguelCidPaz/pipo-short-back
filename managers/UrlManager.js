@@ -45,6 +45,9 @@ const shortUrl = async (data) => {
     }
 }
 
+/**
+ * Create a code and make sure that the db does not contain any equal
+ */
 const verifyCode = async() => {
     let comp = false
     let code = ''

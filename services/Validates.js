@@ -1,3 +1,10 @@
+/**
+ * Receives the arr of urls and reviews it in case the user already has that url tracked
+ * 
+ * @param {mongoose data} arr 
+ * @param {code} obj 
+ * @returns 
+ */
 const comprobateUrl = (arr, obj) => {
     const firstMap = arr.map((e) => {
         return e.url === obj.url && e.user === obj.user
@@ -6,6 +13,12 @@ const comprobateUrl = (arr, obj) => {
     return firstMap.includes(true)
 }
 
+/**
+ * The string is validated character by character so that no script is sneaked
+ * 
+ * @param {string} str 
+ * @returns 
+ */
 const validation = (str) => {
     const validate = /^[A-Za-z0-9]+$/g
     if (typeof str !== 'string' || str.length < 4) return false
@@ -14,22 +27,12 @@ const validation = (str) => {
     return false
 }
 
-const getAllUrls = (infos) => {
-    const result = []
-    for (const info of infos) {
-
-        const comprobate = result.includes(info.code)
-        if(!comprobate && info.code !== undefined){
-            result.push(info.code);
-            result.push(1)
-            continue
-        }
-        const index = result.indexOf(info.code)+1
-        result[index] += 1       
-    }
-    return result
-}
-
+/**
+ * Count the Clicks documents and format the response
+ * 
+ * @param {Clicks} data 
+ * @returns 
+ */
 const getDetails = (data) => {
     const languages = []
     const platforms = []
@@ -59,6 +62,5 @@ const getDetails = (data) => {
 module.exports = {
     comprobateUrl: comprobateUrl,
     validation: validation,
-    getAllUrls: getAllUrls,
     getDetails: getDetails
 }
