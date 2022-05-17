@@ -17,12 +17,15 @@ const validation = (str) => {
 const getAllUrls = (infos) => {
     const result = []
     for (const info of infos) {
+
         const comprobate = result.includes(info.code)
-        if (!comprobate && info.code !== undefined) {
-            result.push(info.code)
+        if(!comprobate && info.code !== undefined){
+            result.push(info.code);
+            result.push(1)
+            continue
         }
-        const index = result.indexOf(info.code) + 1
-        result[index] ? result[index] += 1 : result[index] = 1
+        const index = result.indexOf(info.code)+1
+        result[index] += 1       
     }
     return result
 }
@@ -31,6 +34,7 @@ const getDetails = (data) => {
     const languages = []
     const platforms = []
     const code = data[0].code
+
 
     for (const item of data) {
         //Languages

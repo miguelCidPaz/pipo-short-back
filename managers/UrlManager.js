@@ -75,16 +75,21 @@ const getUrl = async (data) => {
 
 const getInfo = async (data) => {
     try {
-        const allClicks = await Clicks.find({ user: data.username });
-        if (allClicks.lenght < 1) return []
+        const allmyUrls = await url.find({ user: data.username });
+        if (allmyUrls.lenght < 1) return []
 
-        const recount = Validates.getAllUrls(allClicks)
-
-        const response = []
-        for (let i = 1; i < recount.length; i += 2) {
-            const myUrl = await url.find({ code: recount[i - 1] })
-            response.push({ url: myUrl[0].url, code: recount[i - 1], totalclicks: recount[i] })
-        }
+        const allClicks = await Clicks.find()
+        const response = allmyUrls.map((e,i) => {
+            let code = e.code
+            let url = e.url
+            let clicks = 0
+            for(const click of allClicks){
+                if(click.code === code){
+                    clicks += 1
+                }
+            }
+            return {code: code, url: url, totalclicks: clicks}
+        })
 
         return response
     } catch (e) {
